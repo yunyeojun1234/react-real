@@ -56,11 +56,7 @@ const Category = styled.div`
         color:#495057;
     }
 
-    ${props => 
-        props.active && css`
-        font
-        `
-    }
+    
 
     &+&{
         margin-left:1rem;

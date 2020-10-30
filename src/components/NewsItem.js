@@ -55,4 +55,5 @@ const NewsItem = ({article}) => {
     );
 };
 
-export default NewsItem;
+export default NewsItem; 
+

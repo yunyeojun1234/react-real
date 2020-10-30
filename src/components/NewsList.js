@@ -39,9 +39,11 @@ const NewList = () =>{
             <NewsItem article={sampleArticle} />
         </NewsListBlock>
     );
+
 };
 
-export default NewList; */
+
+export default NewList;ddd */
 
 const NewsList = ()=>{
     const[articles, setArticles] = useState(null);
@@ -69,7 +71,7 @@ const NewsList = ()=>{
     //대기중일때
     if(loading){
         return <NewsListBlock>대기중 ...</NewsListBlock>;
-    }
+    };
     //아직 articles 값이 설정되지 않았을 때
     if (!articles){
         return null;
