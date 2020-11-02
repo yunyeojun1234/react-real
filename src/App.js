@@ -35,7 +35,7 @@ const App = () => {
 
 export default App; */
 
-import React, {useState, useCallback} from  'react';
+/* import React, {useState, useCallback} from  'react';
 import NewsList from './components/NewsList';
 import Categories from './components/Categories';
 
@@ -51,6 +51,17 @@ const App = ()=>{
   <NewsList category={category} />;
   </>
   );
+};
+
+export default App; */   //383page 수정하기전
+
+
+import React from 'react';
+import {Route} from 'react-router-dom';
+import NewsPage from './pages/NewsPage';
+
+const App = ()=>{
+  return <Route path ="/:category?" component={ NewsPage } />;
 };
 
 export default App;

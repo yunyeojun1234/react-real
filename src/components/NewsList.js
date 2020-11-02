@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import NewsItem from './NewsItem';
 import axios from 'axios';
+import usePromise from '../lib/usePromise';
 
 const NewsListBlock = styled.div`
 box-sizing:border-box;
@@ -45,7 +46,7 @@ const NewList = () =>{
 
 export default NewList;ddd */
 
-const NewsList = ()=>{
+/* const NewsList = ({category})=>{
     const[articles, setArticles] = useState(null);
     const[loading, setLoading] = useState(false);
 
@@ -54,8 +55,9 @@ const NewsList = ()=>{
         const fetchData = async ()=>{
             setLoading(true);
             try{
+                const query = category === 'all' ? '': `&category=${category}`; //eslint-disable-line no-unused-vars
                 const response =await axios.get(
-                    'https://newsapi.org/v2/top-headlines?country=kr&apiKey=28d572e6fbb3482da71ff93e5487e9d8',
+                    `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=28d572e6fbb3482da71ff93e5487e9d8`,
                 );
                 setArticles(response.data.articles);
             } catch(e) {
@@ -64,7 +66,17 @@ const NewsList = ()=>{
             setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [category]); */
+
+
+    const NewsList = ({category}) => {
+        const [loading, response, error] =usePromise(() =>{
+        const query = category ==='all'? '':`&category=${category}`;
+        return axios.get (
+            `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=28d572e6fbb3482da71ff93e5487e9d8`,
+
+        );
+    }, [category]);
 
 
 
@@ -72,20 +84,38 @@ const NewsList = ()=>{
     if(loading){
         return <NewsListBlock>대기중 ...</NewsListBlock>;
     };
-    //아직 articles 값이 설정되지 않았을 때
-    if (!articles){
+    
+
+    //아직 response 값이 설정되지 않앗을때 
+    if (!response){
         return null;
     }
 
+    //에러가 발생했을때
+    if (error) {
+        return <NewsListBlock>에러 발생</NewsListBlock>;
+    }
+
+    //response 값이 유효할때
+
+    const {articles} = response.data;
+    return(
+        <NewsListBlock>
+            {articles.map(article =>(
+                <NewsItem key={article.url} article={article} />
+            ))}
+        </NewsListBlock>
+    );
+
     //articles 값이 유효할때
 
-    return (
+    /* return (
         <NewsListBlock>
             {articles.map(article =>(
                 <NewsItem key={article.url} article={article}/>
             ))}
         </NewsListBlock>
-    );
+    ); */
 };
 
 export default NewsList;
